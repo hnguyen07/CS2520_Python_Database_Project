@@ -7,8 +7,10 @@ from tabulate import tabulate
 
 class Authentication_GUI:
     '''A GUI for the authentication window.'''
+
     def __init__(self, master, conn, cursor):
         '''Initiate the menu GUI.'''
+
         self.master = master
         self.master.title('Authentication')
         self.conn = conn
@@ -49,7 +51,7 @@ class Authentication_GUI:
         if authenticate != -1: # Login info is correct
             self.master.destroy() # close the authentication window
             self.master = tk.Tk() 
-            self.db = Main_Menu_GUI(self.master, self.conn, self.cursor) # open the main menu 
+            self.db = Main_Menu_GUI(self.master, self.conn, self.cursor) # open the main menu
             self.master.mainloop()
         else:
             self._wrongLoginInfo()
@@ -76,8 +78,10 @@ class Authentication_GUI:
 
 class Main_Menu_GUI:
     '''A GUI for the Connect Four Game.'''
+
     def __init__(self, master, conn, cursor):
         '''Initiate the game GUI.'''
+
         self.master = master
         self.master.title('Database System')  
         self.conn = conn
@@ -95,7 +99,7 @@ class Main_Menu_GUI:
         option8 = tk.Button(self.master, text="Add a Driver", command=lambda: addDriverGUI(self.cursor, self.conn))
         option9 = tk.Button(self.master, text="Add a Bus", command=lambda: addBusGUI(self.cursor, self.conn))
         option10 = tk.Button(self.master, text="Delete a Bus", command=lambda: deleteBusGUI(self.cursor, self.conn))
-        option11 = tk.Button(self.master, text="Exit the program", fg='red', command=lambda: self.master.destroy)
+        option11 = tk.Button(self.master, text="Exit the program", fg='red', command=self.master.destroy)
 
         # Layout of the buttons
         options.grid(row = 0, column = 0)
@@ -109,11 +113,12 @@ class Main_Menu_GUI:
         option8.grid(row = 8, column = 0)
         option9.grid(row = 9, column = 0)
         option10.grid(row = 10, column = 0)
-        option11.grid(row = 11, column = 0)             
+        option11.grid(row = 11, column = 0)
 
 
 class TabulateLabel(tk.Label):
     ''' Display extracted data in tab form '''
+
     def __init__(self, parent, data, **kwargs):
         super().__init__(parent, 
                          font=('Consolas', 10), 
