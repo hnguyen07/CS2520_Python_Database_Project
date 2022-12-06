@@ -95,7 +95,7 @@ class Main_Menu_GUI:
         option8 = tk.Button(self.master, text="Add a Driver", command=lambda: addDriverGUI(self.cursor, self.conn))
         option9 = tk.Button(self.master, text="Add a Bus", command=lambda: addBusGUI(self.cursor, self.conn))
         option10 = tk.Button(self.master, text="Delete a Bus", command=lambda: deleteBusGUI(self.cursor, self.conn))
-        option11 = tk.Button(self.master, text="Exit the program", command=lambda: self.master.destroy)
+        option11 = tk.Button(self.master, text="Exit the program", fg='red', command=lambda: self.master.destroy)
 
         # Layout of the buttons
         options.grid(row = 0, column = 0)
