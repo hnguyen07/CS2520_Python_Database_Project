@@ -1,3 +1,10 @@
+# Readme: 
+# 1. Use the attached sql script file to set up the transitsystem database
+# 2. Change the connection's condition using the username, password, host, port of your local/remote database accordingly
+# 3. Run the code and login to the system using some predefined usernames and passwords like (admin1, password1), (admin2, password2)
+# 4. After logging in to the program, choose any of the option to querry/modify the database (the inputted information must satisfy the 
+# referential or data constraints of the entities in the database; an error will appear if a constraint is violated by the user's inputs)
+
 from mysql.connector import connection
 from mysql.connector.errors import Error
 import tkinter as tk
@@ -370,6 +377,7 @@ def addTripOffering(cursor, conn,
         cursor.execute("INSERT INTO TripOffering VALUES ('" + tripNo + "', '" + date + "', '" + scheduledStartTime
              + "', '" + scheduledArrivalTime + "', '" + driver + "', '" + busID + "')")
         conn.commit()
+        
         messagebox.showinfo(title='Success', message='The new Trip Offering was successfully added.')
     except Error:
         messagebox.showwarning(title='Error', message='Error! Please check the inputted data.')
@@ -446,8 +454,12 @@ def changeDriver(cursor, conn,
                                 "Date = '" + date + "' AND " +
                                 "ScheduledStartTime = '" + scheduledStartTime + "'")
         conn.commit()
-        messagebox.showinfo(title='Success',
-                               message="The inputted Trip Offering was successfully updated with the new Driver.")
+        if cursor.rowcount:
+            messagebox.showinfo(title='Success',
+                                message="The inputted Trip Offering was successfully updated with the new Driver.")
+        else:
+            messagebox.showwarning(title='Error',
+                                   message='Error! Please check the inputted data.')
     except Error:
         messagebox.showwarning(title='Error',
                                message='Error! Please check the inputted data.')
@@ -524,8 +536,12 @@ def changeBus(cursor, conn,
                                 "Date = '" + date + "' AND " +
                                 "ScheduledStartTime = '" + scheduledStartTime + "'")
         conn.commit()
-        messagebox.showinfo(title='Success',
-                            message="The inputted Trip Offering was successfully updated with the new Bus ID.")
+        if cursor.rowcount:
+            messagebox.showinfo(title='Success',
+                                message="The inputted Trip Offering was successfully updated with the new Bus ID.")
+        else:
+            messagebox.showwarning(title='Error',
+                                   message='Error! Please check the inputted data.')
     except Error:
         messagebox.showwarning(title='Error',
                                message='Error! Please check the inputted data.')
@@ -885,13 +901,13 @@ def deleteBus(cursor, conn, busIDEntryBox):
 
 
 def authenticate(cursor, conn):
-    ''' record the username and password that can access the system '''
+    ''' record some of the usernames and passwords that can access the system '''
     cursor.execute('''CREATE TABLE IF NOT EXISTS users (Username text, Password text)''')
     cursor.execute("INSERT INTO users VALUES ('admin1', 'password1')")
     cursor.execute("INSERT INTO users VALUES ('admin2', 'password2')")
     cursor.execute("INSERT INTO users VALUES ('admin3', 'password3')")
     cursor.execute("INSERT INTO users VALUES ('admin4', 'password4')")
-    cursor.execute("INSERT INTO users VALUES ('', '')")
+    cursor.execute("INSERT INTO users VALUES ('', '')") # this one just for quick login to access the program
     conn.commit()
 
 
@@ -902,9 +918,12 @@ def main():
     cursor = conn.cursor(buffered=True)
     authenticate(cursor, conn)    
 
+    # Open the authentication window first and login successfully if username/passoword is correct
     root = tk.Tk()
     app = Authentication_GUI(root, conn, cursor)
     root.mainloop()
 
+
+# Run the main 
 if __name__ == "__main__":
     main()
